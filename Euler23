@@ -1,0 +1,64 @@
+
+public class Euler23 {
+
+	public static void main(String[] args) {
+		long startTime = System.currentTimeMillis();
+		
+		boolean listan[] = new boolean[28122];
+		
+		for (int i = 0; i < listan.length-1; i++) {
+			listan[i] = true;
+		}
+		
+		boolean abundList[] = new boolean[28122];
+			
+		for (int i = 0; i < abundList.length-1; i++) {
+			if (isAbund(i+1)) {
+				abundList[i] = true;
+			}
+			else {
+				abundList[i] = false;
+			}
+		}
+		for (int i = 10; i < abundList.length/2+1; i++) {
+			if (abundList[i]) {
+				for (int j = 10; j < abundList.length-1-i; j++) {
+					if (abundList[j]) {
+						listan[i+1+j+1-1] = false;
+					}
+				}
+			}
+		}
+		int sum = 0;
+		for (int i = 0; i < listan.length - 1; i++) {
+			if (listan[i]) {
+				sum = sum + (i+1);
+			}
+		}
+		System.out.println(sum);
+		long endTime = System.currentTimeMillis();
+		long timeElapsed = endTime - startTime;
+		System.out.println("Tid: " + timeElapsed + "ms");
+	}
+	
+	
+	public static boolean isAbund(int a) {
+		return sumDiv(a) > a;
+	}
+	
+	public static int sumDiv(int a) {
+		int sum = 1;
+		for (int i = 2; i <= Math.sqrt(a) ; i++) {
+			
+			if (a % i == 0) {
+				if(i * i == a) {
+					sum = sum + i;	
+				}
+				else {
+					sum = sum + i + a/i;
+				}
+			}
+		}	
+		return sum;
+	}
+}
